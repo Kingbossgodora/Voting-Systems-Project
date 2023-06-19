@@ -36,17 +36,18 @@ for i in range(len(coordinates)):
     ballot_fin_n = np.argsort(ballot_fin, axis=0)
     ballot_box.update({i: {"coordinates": coordinates[i], "vote": ballot_fin[ballot_fin_n[:,1]]}})
 
-print(ballot_box[3]["vote"])
+# print(ballot_box[3]["vote"])
 
+candidate_array = np.array(list(candidates.values()))
 
 # Calculate distances from each point to the candidate point
 # distances = np.sqrt(np.sum((coordinates - candidate_point) ** 2, axis=1))
 
 # Plot the points and their distances
-# plt.scatter(x_coords, y_coords)
-# plt.scatter(candidate_point[0], candidate_point[1], marker='o', color='red', label='Candidate')
-# plt.legend()
-# plt.xlabel('X')
-# plt.ylabel('Y')
-# plt.grid(True)
-# plt.show()
+plt.scatter(x_coords, y_coords)
+plt.scatter(candidate_array[:,0], candidate_array[:,1], marker='o', color='red', label='Candidate')
+plt.legend()
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.grid(True)
+plt.show()

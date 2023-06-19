@@ -33,8 +33,8 @@ for i in range(len(coordinates)):
     for j in ballot:
         ballot_new.append(Distance(candidates[j], coordinates[i]))
     ballot_fin = np.column_stack((ballot, ballot_new))
-    # Someone pls sort the distances so the ballots are ordered properly
-    ballot_box.update({i: {"coordinates": coordinates[i], "vote": ballot_fin}})
+    ballot_fin_n = np.argsort(ballot_fin, axis=0)
+    ballot_box.update({i: {"coordinates": coordinates[i], "vote": ballot_fin[ballot_fin_n[:,1]]}})
 
 print(ballot_box[3]["vote"])
 

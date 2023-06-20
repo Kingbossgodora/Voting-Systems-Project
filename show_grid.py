@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-n_points = 100
+n_points = 10000
 n_candidates = 3
 x_range = (-10, 10)
 y_range = (-10, 10)
@@ -49,8 +49,19 @@ candidate_array = np.array(list(candidates.values()))
 # Calculate distances from each point to the candidate point
 # distances = np.sqrt(np.sum((coordinates - candidate_point) ** 2, axis=1))
 
+# Makes a colormap with three colours
+colormap = np.array(['slateblue', 'limegreen', 'gold'])
+
+categories = np.array([])
+
+for i in range(len(coordinates)):
+    cat = ballot_box[i]["vote"][0][0]
+    categories = np.append(categories, [cat])
+
+categories = categories.astype(int)
+
 # Plot the points and their distances
-plt.scatter(x_coords, y_coords)
+plt.scatter(x_coords, y_coords, c=colormap[categories])
 plt.scatter(candidate_array[:, 0], candidate_array[:, 1], marker='o', color='red', label='Candidate')
 plt.legend()
 plt.xlabel('X')

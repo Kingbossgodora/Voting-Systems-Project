@@ -14,5 +14,5 @@ def bordaCount(ballot_box):
 
     candidate_points_list = list(candidate_points.items())
     candidate_points_list = sorted(candidate_points_list, key=lambda x: x[1], reverse=True)
-    #sorted_candidate_indices = [candidate_index for candidate_index, _ in candidate_points_list]
+    # sorted_candidate_indices = [candidate_index for candidate_index, _ in candidate_points_list]
     return candidate_points_list

@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from Utils.scoring import scoring
 
-n_points = 10000
+n_points = 10
 n_candidates = 3
 x_range = (-10, 10)
 y_range = (-10, 10)
@@ -68,3 +69,5 @@ plt.xlabel('X')
 plt.ylabel('Y')
 plt.grid(True)
 plt.show()
+
+print(scoring(ballot_box, n_candidates))

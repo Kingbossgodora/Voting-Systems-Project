@@ -1,8 +1,13 @@
-import numpy as np
 from math import floor
 
 
 def scoring(ballots, n_candidates):
+    """
+    Find a score that each candidate gets in a scoring voting.
+    :param ballots: dictionary with voters and their preference list
+    :param n_candidates: number of candidates
+    :return: dictionary of candidates and their respective score
+    """
 
     max = 0
     candidates = {}
@@ -11,6 +16,7 @@ def scoring(ballots, n_candidates):
     for i in range(n_candidates):
         candidates[i] = 0
 
+    # find maximum distance in the graph to calculate the value of 1 point in scoring
     for i in ballots.keys():
         for x in ballots[i]['vote']:
                 if x[1] > max:

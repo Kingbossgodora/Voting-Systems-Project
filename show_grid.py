@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Utils.scoring import scoring
+from Utils.bordaCountFunction import bordaCount
 
 n_points = 10
 n_candidates = 3
@@ -43,7 +44,6 @@ for i in range(len(coordinates)):
     ballot_box.update({i: {"coordinates": coordinates[i], "vote": ballot_fin[ballot_fin_n[:, 1]]}})
 
 # print(ballot_box[3]["vote"])
-
 # This is my braindead way of getting candidate coordinates into an array so I can plot them
 candidate_array = np.array(list(candidates.values()))
 
@@ -71,3 +71,4 @@ plt.grid(True)
 plt.show()
 
 print(scoring(ballot_box, n_candidates))
+print(bordaCount(ballot_box))

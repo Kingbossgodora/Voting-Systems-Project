@@ -11,11 +11,11 @@ def IRV(ballots):
     while(Wvote<= majority):
         candidate_points.clear()
         for i in range(len(ballots)):
-            vote=ballot_box[i]["vote"][:, 0][0]
+            vote=ballots[i]["vote"][:, 0][0]
             #skips eliminated candidates and select vote for next one --- need work
             c=0
             while(vote in losers):
-                vote=ballot_box[i]["vote"][:, 0][c]
+                vote=ballots[i]["vote"][:, 0][c]
                 c+=1
             if vote not in candidate_points:
                 candidate_points[vote]=0

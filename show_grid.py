@@ -4,13 +4,14 @@ from Utils.scoring import scoring
 from Utils.borda_count import bordaCount
 from Utils.condorcet import condorcet
 from Utils.instant_runoff import instant_runoff
+from Utils.discrepancyFunction import discrepancy
 
 
 def distance(a, b):
     return np.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
 
 
-n_points = 10
+n_points = 10000
 n_candidates = 3
 x_range = (-10, 10)
 y_range = (-10, 10)
@@ -73,6 +74,6 @@ plt.grid(True)
 plt.show()
 
 print(scoring(ballot_box, n_candidates))
-print(bordaCount(ballot_box))
-print(condorcet(ballot_box, n_candidates))
+print(bordaCount(ballot_box, n_candidates))
 print(instant_runoff(ballot_box))
+

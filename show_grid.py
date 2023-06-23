@@ -1,7 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Utils.scoring import scoring
-from Utils.bordaCountFunction import bordaCount
+from Utils.borda_count import bordaCount
+from Utils.condorcet import condorcet
+
+
+def distance(a, b):
+    return np.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
+
 
 n_points = 10
 n_candidates = 3
@@ -25,11 +31,6 @@ for i in range(n_candidates):
     candidate_i = [mean_x + D * np.cos(theta), mean_y + D * np.sin(theta)]
     candidates.update({i: candidate_i})
 
-
-def Distance(a, b):
-    return np.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
-
-
 ballot_box = {}
 
 # Creates a Ballot for each voter that contains their ordered ranking of candidates. The Ballot Box is
@@ -38,7 +39,7 @@ for i in range(len(coordinates)):
     ballot = list(range(n_candidates))
     ballot_new = []
     for j in ballot:
-        ballot_new.append(Distance(candidates[j], coordinates[i]))
+        ballot_new.append(distance(candidates[j], coordinates[i]))
     ballot_fin = np.column_stack((ballot, ballot_new))
     ballot_fin_n = np.argsort(ballot_fin, axis=0)
     ballot_box.update({i: {"coordinates": coordinates[i], "vote": ballot_fin[ballot_fin_n[:, 1]]}})
@@ -72,3 +73,4 @@ plt.show()
 
 print(scoring(ballot_box, n_candidates))
 print(bordaCount(ballot_box))
+print(condorcet(ballot_box, n_candidates))

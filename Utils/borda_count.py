@@ -1,5 +1,5 @@
 
-def bordaCount(ballot_box):
+def bordaCount(ballot_box, *args):
     candidate_points = {}
     n_candidates = len(ballot_box[0]["vote"])
 

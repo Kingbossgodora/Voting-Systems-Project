@@ -1,7 +1,7 @@
 from math import floor
 
 
-def instant_runoff(ballots):
+def instant_runoff(ballots, *args):
     candidate_points = {}
     losers = []
     majority = floor(len(ballots) / 2)

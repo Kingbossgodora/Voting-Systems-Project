@@ -1,4 +1,4 @@
-def plurality(ballots):
+def plurality(ballots, *args):
     candidate_points = {}
     
     for i in range(len(ballots)):        

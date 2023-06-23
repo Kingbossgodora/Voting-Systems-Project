@@ -1,7 +1,7 @@
 
-def bordaCount(ballot_box, *args):
+def bordaCount(ballot_box, n_candidates):
     candidate_points = {}
-    n_candidates = len(ballot_box[0]["vote"])
+    #n_candidates = len(ballot_box[0]["vote"])
 
     for voter_index, rank in ballot_box.items():
         ballot = rank["vote"][:, 0]

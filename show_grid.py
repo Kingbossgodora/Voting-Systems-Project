@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from Utils.scoring import scoring
 from Utils.borda_count import bordaCount
 from Utils.condorcet import condorcet
+from Utils.instant_runoff import instant_runoff
 
 
 def distance(a, b):
@@ -74,3 +75,4 @@ plt.show()
 print(scoring(ballot_box, n_candidates))
 print(bordaCount(ballot_box))
 print(condorcet(ballot_box, n_candidates))
+print(instant_runoff(ballot_box))

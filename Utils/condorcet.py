@@ -3,7 +3,7 @@ def condorcet(ballots, n_candidates):
     Find the winner for the vote using the Condorcet Method
     :param ballots: dictionary with voters and their preference list
     :param n_candidates: number of candidates
-    :return: list of winners (contains either 1 or 0 candidates)
+    :return: list of winners
     """
 
     # when a candidate loses in comparison to any other candidate, value changes to False and is not considered anymore

@@ -3,7 +3,7 @@ def plurality(ballots):
     
     for i in range(len(ballots)):        
         #fill the candidate dictionary and count the number of first choice
-        vote=ballot_box[i]["vote"][:, 0][0]
+        vote=ballots[i]["vote"][:, 0][0]
         if vote not in candidate_points:
             candidate_points[vote]=0
         candidate_points[vote] +=1

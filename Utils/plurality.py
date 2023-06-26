@@ -22,4 +22,6 @@ def plurality(ballots, *args):
         if nw > 1:
             print("There is a tie")
             return
-    return Winner
+    #return a dic
+    Winner_dic = {Winner: Wvote}
+    return Winner_dic

@@ -29,5 +29,5 @@ def condorcet(ballots, n_candidates):
                 candidates[j] = False
             elif j_over_i > i_over_j:
                 candidates[i] = False
-
-    return [k for k, v in candidates.items() if v is True]
+    return {k: v for k, v in candidates.items() if v is True}
+#   return [k for k, v in candidates.items() if v is True]

@@ -5,6 +5,8 @@ from Utils.borda_count import bordaCount
 from Utils.condorcet import condorcet
 from Utils.instant_runoff import instant_runoff
 from Utils.discrepancyFunction import discrepancy
+from Utils.plurality import plurality
+from Utils.Dictatorship import dictatorship
 
 
 def distance(a, b):
@@ -73,7 +75,16 @@ plt.ylabel('Y')
 plt.grid(True)
 plt.show()
 
-print(scoring(ballot_box, n_candidates))
-print(bordaCount(ballot_box, n_candidates))
-print(instant_runoff(ballot_box))
+print('plurality:', plurality(ballot_box))
+print('scoring:', scoring(ballot_box, n_candidates))
+print('borda count:', bordaCount(ballot_box, n_candidates))
+print('instant run off:', instant_runoff(ballot_box))
+print('condorcet:', condorcet(ballot_box, n_candidates))
+print('dictatorship:', dictatorship(ballot_box))
 
+print(discrepancy(plurality, ballot_box, candidate_point, candidates, n_candidates))
+print(discrepancy(scoring, ballot_box, candidate_point, candidates, n_candidates))
+print(discrepancy(bordaCount, ballot_box, candidate_point, candidates, n_candidates))
+print(discrepancy(instant_runoff, ballot_box, candidate_point, candidates, n_candidates))
+print(discrepancy(condorcet, ballot_box, candidate_point, candidates, n_candidates))
+print(discrepancy(dictatorship, ballot_box, candidate_point, candidates, n_candidates))

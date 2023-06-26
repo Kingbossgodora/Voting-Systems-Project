@@ -26,6 +26,7 @@ def instant_runoff(ballots, *args):
         losers.append(loser)
         wvote = max(zip(candidate_points.values(), candidate_points.keys()))[0]
 
-    return candidate_points
+    ordered_candidate_points = dict(sorted(candidate_points.items(), reverse=False))
+    return ordered_candidate_points
 
     # return max(zip(candidate_points.values(), candidate_points.keys()))[1]

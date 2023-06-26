@@ -82,9 +82,4 @@ print('instant run off:', instant_runoff(ballot_box))
 print('condorcet:', condorcet(ballot_box, n_candidates))
 print('dictatorship:', dictatorship(ballot_box))
 
-print(discrepancy(plurality, ballot_box, candidate_point, candidates, n_candidates))
-print(discrepancy(scoring, ballot_box, candidate_point, candidates, n_candidates))
-print(discrepancy(bordaCount, ballot_box, candidate_point, candidates, n_candidates))
-print(discrepancy(instant_runoff, ballot_box, candidate_point, candidates, n_candidates))
-print(discrepancy(condorcet, ballot_box, candidate_point, candidates, n_candidates))
-print(discrepancy(dictatorship, ballot_box, candidate_point, candidates, n_candidates))
+

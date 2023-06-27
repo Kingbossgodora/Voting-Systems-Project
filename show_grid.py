@@ -7,6 +7,7 @@ from Utils.instant_runoff import instant_runoff
 from Utils.discrepancyFunction import discrepancy
 from Utils.plurality import plurality
 from Utils.Dictatorship import dictatorship
+from Utils.jack_knife import JackKnife
 
 
 def distance(a, b):
@@ -28,6 +29,7 @@ mean_x = x_coords.mean()
 mean_y = y_coords.mean()
 candidate_point = [mean_x, mean_y]
 
+
 # Adds n candidates each a set distance from the centroid
 for i in range(n_candidates):
     theta = np.random.uniform(0, 2 * np.pi)
@@ -37,7 +39,7 @@ for i in range(n_candidates):
 
 ballot_box = {}
 
-# Creates a Ballot for each voter that contains their ordered ranking of candidates. The Ballot Box is
+# Creates a Ballot for each voter that contains the ir ordered ranking of candidates. The Ballot Box is
 # a dictionary containing both the coordinates of a given voter and their ballot.
 for i in range(len(coordinates)):
     ballot = list(range(n_candidates))
@@ -76,10 +78,13 @@ plt.grid(True)
 plt.show()
 
 print('plurality:', plurality(ballot_box))
-print('scoring:', scoring(ballot_box, n_candidates))
-print('borda count:', bordaCount(ballot_box, n_candidates))
 print('instant run off:', instant_runoff(ballot_box))
+print('borda count:', bordaCount(ballot_box, n_candidates))
 print('condorcet:', condorcet(ballot_box, n_candidates))
+print('scoring:', scoring(ballot_box, n_candidates))
 print('dictatorship:', dictatorship(ballot_box))
+print()
+
+
 
 

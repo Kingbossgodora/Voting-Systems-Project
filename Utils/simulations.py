@@ -31,6 +31,11 @@ def Candidates(voters_coords, n_candidates):
         candidates.update({i: candidate_i})
     return candidates
 
+def Candidates_rand(n_candidates, x_range, y_range):
+    candidates = {}
+    for i in range(n_candidates):
+        candidate_i = [np.random.uniform(x_range[0], x_range[1]), np.random.uniform(y_range[0], y_range[1])]
+        candidates.update({i: candidate_i})
 
 def simulation(voters_coords, n_candidates, repeats, voting_systems):
     results = []

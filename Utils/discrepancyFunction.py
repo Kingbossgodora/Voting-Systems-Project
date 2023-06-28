@@ -6,5 +6,5 @@ def discrepancy(votingSystem, ballotBox, idealCandidate, candidates, n_candidate
     winner = list(winners.keys())[0]
 
     candidate_coords = candidates[winner]
-    dist = numpy.sqrt((idealCandidate[0] - candidate_coords[0]) ** 2 + (idealCandidate[1] - candidate_coords[1]) ** 2)
+    dist = numpy.sqrt((idealCandidate[0] - candidate_coords[0])**2 + (idealCandidate[1] - candidate_coords[1])**2)
     return dist

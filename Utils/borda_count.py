@@ -12,7 +12,7 @@ def bordaCount(ballot_box, n_candidates):
                 candidate_points[candidate_index] = 0
             candidate_points[candidate_index] += points
 
-    ordered_candidate_points = dict(sorted(candidate_points.items(), reverse=False))
+    ordered_candidate_points = dict(sorted(candidate_points.items(), key=lambda x:x[1], reverse=True))
 
     # if output list & not dic
     # candidate_points_list = list(candidate_points.items())

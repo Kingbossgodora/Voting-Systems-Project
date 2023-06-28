@@ -22,6 +22,5 @@ def plurality(ballots, *args):
         if nw > 1:
             print("There is a tie")
             return
-    #return a dic
-    Winner_dic = {Winner: Wvote}
-    return Winner_dic
+    ordered_candidate_point = dict(sorted(candidate_points.items(), key=lambda x:x[1], reverse=True))
+    return ordered_candidate_point

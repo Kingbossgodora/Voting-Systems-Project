@@ -77,6 +77,8 @@ plt.ylabel('Y')
 plt.grid(True)
 plt.show()
 
+
+
 print('plurality:', plurality(ballot_box))
 print('instant run off:', instant_runoff(ballot_box))
 print('borda count:', bordaCount(ballot_box, n_candidates))
@@ -84,6 +86,8 @@ print('condorcet:', condorcet(ballot_box, n_candidates))
 print('scoring:', scoring(ballot_box, n_candidates))
 print('dictatorship:', dictatorship(ballot_box))
 print()
+
+
 
 
 

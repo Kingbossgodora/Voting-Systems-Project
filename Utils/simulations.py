@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from show_grid import distance
 from Utils.discrepancyFunction import discrepancy
 
@@ -14,10 +15,6 @@ def voters(n_points, x_range, y_range):
     x_coords = np.random.uniform(x_range[0], x_range[1], n_points)
     y_coords = np.random.uniform(y_range[0], y_range[1], n_points)
     return np.column_stack((x_coords, y_coords))
-
-
-num_candidates = 3
-votersCoords = voters(1000, (-10, 10), (-10, 10))
 
 
 def Candidates(voters_coords, n_candidates):
@@ -55,11 +52,12 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
             winner = winners[0]
             discrepancy_val = discrepancy(votingSystem, ballot_box, ideal_candidate, candidates, n_candidates)
             data[votingSystem.__name__] = {"Winner": winner, "Discrepancy": discrepancy_val}
-
         results.append(data)
     return results
 
 
+num_candidates = 5
+votersCoords = voters(1000, (-10, 10), (-10, 10))
 votingSystems_list = [plurality, instant_runoff, bordaCount, condorcet, scoring, dictatorship]
 Simulation = simulation(votersCoords, num_candidates, 3, votingSystems_list)
 

@@ -27,5 +27,7 @@ def scoring(ballots, n_candidates):
     for i in ballots.keys():
         for x in ballots[i]['vote']:
                 candidates[x[0]] += floor(n_values - x[1] * value)
-
-    return candidates
+    
+    #return ordered candidates
+    ordered_candidate_point = dict(sorted(candidates.items(), key=lambda x:x[1], reverse=True))
+    return ordered_candidate_point

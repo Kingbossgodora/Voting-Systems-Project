@@ -8,11 +8,26 @@ from Utils.borda_count import bordaCount
 from Utils.condorcet import condorcet
 from Utils.scoring import scoring
 from Utils.Dictatorship import dictatorship
+from Utils.Stability import stability
 
 
 def voters(n_points, x_range, y_range):
     x_coords = np.random.uniform(x_range[0], x_range[1], n_points)
     y_coords = np.random.uniform(y_range[0], y_range[1], n_points)
+    return np.column_stack((x_coords, y_coords))
+
+
+def voters_normal(n_points, mean, stdev):
+    x_coords = np.random.normal(mean[0], stdev[0], n_points)
+    y_coords = np.random.normal(mean[1], stdev[1], n_points)
+    return np.column_stack((x_coords, y_coords))
+
+
+def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2):
+    x_coords = np.random.normal(mean_1[0], stdev_1[0], n_points/2)
+    y_coords = np.random.normal(mean_1[1], stdev_1[1], n_points/2)
+    x_coords = np.append(x_coords, np.random.normal(mean_2[0], stdev_2[0], n_points/2))
+    y_coords = np.append(y_coords, np.random.normal(mean_2[1], stdev_2[1], n_points / 2))
     return np.column_stack((x_coords, y_coords))
 
 
@@ -31,18 +46,27 @@ def Candidates(voters_coords, n_candidates):
         candidates.update({i: candidate_i})
     return candidates
 
+
 def Candidates_rand(n_candidates, x_range, y_range):
     candidates = {}
     for i in range(n_candidates):
         candidate_i = [np.random.uniform(x_range[0], x_range[1]), np.random.uniform(y_range[0], y_range[1])]
         candidates.update({i: candidate_i})
+    return candidates
+
+def Candidates_norm(n_candidates, mean, stdev):
+    candidates = {}
+    for i in range(n_candidates):
+        candidate_i = [np.random.normal(mean[0], stdev[0]), np.random.normal(mean[1], stdev[1])]
+        candidates.update({i: candidate_i})
+    return candidates
 
 def simulation(voters_coords, n_candidates, repeats, voting_systems):
     results = []
     ideal_candidate = [voters_coords[:, 0].mean(), voters_coords[:, 1].mean()]
 
     for repeat in range(repeats):
-        candidates = Candidates(voters_coords, n_candidates)
+        candidates = Candidates_rand(n_candidates, (-10,10),(-10,10))
 
         ballot_box = {}
         for i in range(len(voters_coords)):
@@ -73,5 +97,3 @@ for repeat, result in enumerate(Simulation, start=1):
     for votingSystem, data in result.items():
         print(votingSystem, ":", data, end="\n")
     print()
-
-

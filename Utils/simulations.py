@@ -31,7 +31,7 @@ def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2):
     return np.column_stack((x_coords, y_coords))
 
 
-num_candidates = 3
+num_candidates = 10
 votersCoords = voters(1000, (-10, 10), (-10, 10))
 
 
@@ -61,12 +61,25 @@ def Candidates_norm(n_candidates, mean, stdev):
         candidates.update({i: candidate_i})
     return candidates
 
+
+def Candidates_no_centre(voters_coords, n_candidates):
+    candidates = {}
+    for i in range(n_candidates):
+        theta = np.random.uniform(0, 2 * np.pi)
+        D = (i+1) * (10 / n_candidates)
+        mean_x = voters_coords[:, 0].mean()
+        mean_y = voters_coords[:, 1].mean()
+        candidate_i = [mean_x + D * np.cos(theta), mean_y + D * np.sin(theta)]
+        candidates.update({i: candidate_i})
+    return candidates
+
+
 def simulation(voters_coords, n_candidates, repeats, voting_systems):
     results = []
     ideal_candidate = [voters_coords[:, 0].mean(), voters_coords[:, 1].mean()]
 
     for repeat in range(repeats):
-        candidates = Candidates_rand(n_candidates, (-10,10),(-10,10))
+        candidates = Candidates_no_centre(voters_coords, n_candidates)
 
         ballot_box = {}
         for i in range(len(voters_coords)):

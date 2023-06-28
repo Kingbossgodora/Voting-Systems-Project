@@ -51,7 +51,14 @@ def Candidates_rand(n_candidates, x_range, y_range):
     for i in range(n_candidates):
         candidate_i = [np.random.uniform(x_range[0], x_range[1]), np.random.uniform(y_range[0], y_range[1])]
         candidates.update({i: candidate_i})
+    return candidates
 
+def Candidates_norm(n_candidates, mean, stdev):
+    candidates = {}
+    for i in range(n_candidates):
+        candidate_i = [np.random.normal(mean[0], stdev[0]), np.random.normal(mean[1], stdev[1])]
+        candidates.update({i: candidate_i})
+    return candidates
 
 def simulation(voters_coords, n_candidates, repeats, voting_systems):
     results = []

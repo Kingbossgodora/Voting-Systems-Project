@@ -50,23 +50,31 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
             ballot_box.update({i: {"coordinates": voters_coords[i], "vote": ballot_fin[ballot_fin_n[:, 1]]}})
 
         data = {}
+        avg_discrepancy = {}
         for votingSystem in voting_systems:
             winners = list(votingSystem(ballot_box, n_candidates).keys())
             winner = winners[0]
             discrepancy_val = discrepancy(votingSystem, ballot_box, ideal_candidate, candidates, n_candidates)
             data[votingSystem.__name__] = {"Winner": winner, "Discrepancy": discrepancy_val}
-
+            # average discrepancy
+            if votingSystem not in avg_discrepancy:
+                avg_discrepancy[votingSystem.__name__] = 0
+            avg_discrepancy[votingSystem.__name__] += discrepancy_val
         results.append(data)
-    return results
+
+    for votingSystem in voting_systems:
+        avg_discrepancy[votingSystem.__name__] /= repeats
+    return results, avg_discrepancy
 
 
 votingSystems_list = [plurality, instant_runoff, bordaCount, condorcet, scoring, dictatorship]
-Simulation = simulation(votersCoords, num_candidates, 3, votingSystems_list)
+Simulation, avgDiscrepancy = simulation(votersCoords, num_candidates, 3, votingSystems_list)
 
-for repeat, result in enumerate(Simulation, start=1):
+for repeat, (result, discrepancy) in enumerate(zip(Simulation, avgDiscrepancy), start=1):
     print("Repeat:", repeat)
     for votingSystem, data in result.items():
         print(votingSystem, ":", data, end="\n")
+    print('average discrepancy:', avgDiscrepancy)
     print()
 
 

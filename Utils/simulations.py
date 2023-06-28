@@ -62,8 +62,7 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
             avg_discrepancy[votingSystem.__name__] += discrepancy_val
         results.append(data)
 
-    for votingSystem in voting_systems:
-        avg_discrepancy[votingSystem.__name__] /= repeats
+    avg_discrepancy[votingSystem.__name__] /= repeats
     return results, avg_discrepancy
 
 

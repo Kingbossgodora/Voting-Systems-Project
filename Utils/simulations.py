@@ -8,7 +8,6 @@ from Utils.borda_count import bordaCount
 from Utils.condorcet import condorcet
 from Utils.scoring import scoring
 from Utils.Dictatorship import dictatorship
-from Utils.Stability import stability
 
 
 def voters(n_points, x_range, y_range):
@@ -38,7 +37,7 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
     ideal_candidate = [voters_coords[:, 0].mean(), voters_coords[:, 1].mean()]
 
     for repeat in range(repeats):
-        candidates = Candidates_rand(n_candidates, (-10,10),(-10,10))
+        candidates = Candidates(voters_coords, n_candidates)
 
         ballot_box = {}
         for i in range(len(voters_coords)):

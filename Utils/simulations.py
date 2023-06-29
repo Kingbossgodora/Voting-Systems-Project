@@ -10,6 +10,7 @@ from Utils.scoring import scoring
 from Utils.Dictatorship import dictatorship
 from Utils.Stability import stability
 
+#16 simulations to run in total for every type of voter & candidates
 
 def voters(n_points, x_range, y_range):
     x_coords = np.random.uniform(x_range[0], x_range[1], n_points)
@@ -32,7 +33,11 @@ def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2):
 
 
 num_candidates = 10
-votersCoords = voters(1000, (-10, 10), (-10, 10))
+votersCoords1 = voters(1000, (-10, 10), (-10, 10))
+votersCoords2 = voters_normal(1000, (0, 0), (5, 5))
+votersCoords3 = voters_bimodal(1000, (5, 0), (-5, 0), (1, 5), (1, 5))
+votersCoords4 = voters_bimodal(1000, (5, 0), (-5, 0), (1, 1), (1, 1))
+
 
 
 def Candidates(voters_coords, n_candidates):
@@ -94,7 +99,11 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
     avg_discrepancy = {votingSystem.__name__: 0 for votingSystem in voting_systems}
 
     for repeat in range(repeats):
-        candidates = Candidates_no_centre(voters_coords, n_candidates)
+        candidates = Candidates(voters_coords, n_candidates)
+        # candidates = Candidates_no_centre(voters_coords, n_candidates)
+        # candidates = Candidates_rand(n_candidates, (-10, 10), (-10, 10))
+        # candidates = Candidates_norm(voters_coords, n_candidates, (5, 5))
+
 
         ballot_box = {}
         for i in range(len(voters_coords)):

@@ -54,10 +54,24 @@ def Candidates_rand(n_candidates, x_range, y_range):
         candidates.update({i: candidate_i})
     return candidates
 
-def Candidates_norm(n_candidates, mean, stdev):
+def Candidates_norm(voters_coords, n_candidates, stdev):
     candidates = {}
+    mean_x = voters_coords[:, 0].mean()
+    mean_y = voters_coords[:, 1].mean()
+    mean = [mean_x, mean_y]
     for i in range(n_candidates):
         candidate_i = [np.random.normal(mean[0], stdev[0]), np.random.normal(mean[1], stdev[1])]
+        candidates.update({i: candidate_i})
+    return candidates
+
+
+def Candidates_bimodal(n_candidates, mean_1, stdev_1, mean_2, stdev_2, ratio):
+    candidates = {}
+    for i in range(int(n_candidates*ratio)):
+        candidate_i = [np.random.normal(mean_1[0], stdev_1[0]), np.random.normal(mean_1[1], stdev_1[1])]
+        candidates.update({i: candidate_i})
+    for i in range(int(n_candidates*(1-ratio))):
+        candidate_i = [np.random.normal(mean_2[0], stdev_1[0]), np.random.normal(mean_2[1], stdev_2[1])]
         candidates.update({i: candidate_i})
     return candidates
 

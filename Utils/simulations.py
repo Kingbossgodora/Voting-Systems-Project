@@ -106,9 +106,10 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
 
     return results, avg_discrepancy
 
+repeats = 6
 
 votingSystems_list = [plurality, instant_runoff, bordaCount, condorcet, scoring, dictatorship]
-Simulation, avg_Discrepancy = simulation(votersCoords, num_candidates, 2, votingSystems_list)
+Simulation, avg_Discrepancy = simulation(votersCoords, num_candidates, repeats, votingSystems_list)
 
 for repeat, (result, discrepancy) in enumerate(zip(Simulation,avg_Discrepancy), start=1):
     print("Repeat:", repeat)

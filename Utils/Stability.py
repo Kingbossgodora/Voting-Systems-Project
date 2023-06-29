@@ -17,7 +17,7 @@ def stability(ballots, function, tries, percent):
     
     #changes score to percentage
     for keys in candidate_point:
-        candidate_point[keys]= round((candidate_point[keys]/tries)*100, 2)
+        candidate_point[keys]= round((candidate_point[keys]/tries), 2)
     ordered_candidate_point = dict(sorted(candidate_point.items(), key=lambda x:x[1], reverse=True))
     
     #returns dic of candidates and percentage of victory

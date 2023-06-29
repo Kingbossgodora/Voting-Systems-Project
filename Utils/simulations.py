@@ -23,11 +23,11 @@ def voters_normal(n_points, mean, stdev):
     return np.column_stack((x_coords, y_coords))
 
 
-def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2):
-    x_coords = np.random.normal(mean_1[0], stdev_1[0], n_points/2)
-    y_coords = np.random.normal(mean_1[1], stdev_1[1], n_points/2)
-    x_coords = np.append(x_coords, np.random.normal(mean_2[0], stdev_2[0], n_points/2))
-    y_coords = np.append(y_coords, np.random.normal(mean_2[1], stdev_2[1], n_points / 2))
+def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2, ratio):
+    x_coords = np.random.normal(mean_1[0], stdev_1[0], int(n_points*ratio))
+    y_coords = np.random.normal(mean_1[1], stdev_1[1], int(n_points*ratio))
+    x_coords = np.append(x_coords, np.random.normal(mean_2[0], stdev_2[0], int(n_points*(1-ratio))))
+    y_coords = np.append(y_coords, np.random.normal(mean_2[1], stdev_2[1], int(n_points*(1-ratio))))
     return np.column_stack((x_coords, y_coords))
 
 

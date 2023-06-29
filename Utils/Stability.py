@@ -1,15 +1,15 @@
 from Utils.jack_knife import JackKnife
 
-
-def stability(ballots, function, tries, percent):
+def stability(ballots, function, tries, percent, n_candidates, *args):
     candidate_point = {}
     
     if(percent >= 1 or percent <= 0):
         raise Exception("percentage needed in decimal")
-    
+
     #run Jackknife function specifies amount of times
-    for i in range(tries): 
-        w = function(JackKnife(ballots, percent))
+    for i in range(tries):
+        
+        w = function(JackKnife(ballots, percent), n_candidates)
         winner = list(w.keys())[0]
         if winner not in candidate_point:
             candidate_point[winner]=0

@@ -5,7 +5,7 @@ def stability(ballots, function, tries, percent):
     candidate_point = {}
     
     if(percent >= 1 or percent <= 0):
-        raise exception("percentage needed in decimal")
+        raise Exception("percentage needed in decimal")
     
     #run Jackknife function specifies amount of times
     for i in range(tries): 

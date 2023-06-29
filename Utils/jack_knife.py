@@ -11,4 +11,4 @@ def JackKnife(ballots, percent):
     for key in random.sample(temp_ballot.keys(), n_cut):
         del temp_ballot[key]
     
-    return ballots
+    return temp_ballot

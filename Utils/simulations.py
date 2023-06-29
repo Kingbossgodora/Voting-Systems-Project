@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from show_grid import distance
 from Utils.discrepancyFunction import discrepancy
 
@@ -33,6 +34,9 @@ def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2):
 
 num_candidates = 10
 votersCoords = voters(1000, (-10, 10), (-10, 10))
+#votersCoords = voters_normal(1000, (0, 0), (5, 5))
+#votersCoords = voters_bimodal(1000, (5, 0), (-5, 0), (1, 5), (1, 5))
+#votersCoords = voters_bimodal(1000, (5, 0), (-5, 0), (1, 1), (1, 1))
 
 
 def Candidates(voters_coords, n_candidates):
@@ -108,9 +112,9 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
 
 
 votingSystems_list = [plurality, instant_runoff, bordaCount, condorcet, scoring, dictatorship]
-Simulation, avg_Discrepancy = simulation(votersCoords, num_candidates, 2, votingSystems_list)
+Simulation, avg_Discrepancy = simulation(votersCoords, num_candidates, 100, votingSystems_list)
 
-for repeat, (result, discrepancy) in enumerate(zip(Simulation,avg_Discrepancy), start=1):
+for repeat, (result, discrepancy) in enumerate(zip(Simulation, avg_Discrepancy), start=0):
     print("Repeat:", repeat)
     for votingSystem, data in result.items():
         print(votingSystem, ":", data, end="\n")

@@ -97,7 +97,8 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
             winners = list(votingSystem(ballot_box, n_candidates).keys())
             winner = winners[0]
             discrepancy_val = discrepancy(votingSystem, ballot_box, ideal_candidate, candidates, n_candidates)
-            data[votingSystem.__name__] = {"Winner": winner, "Discrepancy": discrepancy_val}
+            stability_val=stability(ballot_box, votingSystem, 1000, 0.1, n_candidates)
+            data[votingSystem.__name__] = {"Winner": winner, "Discrepancy": discrepancy_val, "Stability": stability_val}
             # average discrepancy
             avg_discrepancy[votingSystem.__name__] += discrepancy_val / repeats
 

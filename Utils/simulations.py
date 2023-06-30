@@ -9,6 +9,7 @@ from Utils.condorcet import condorcet
 from Utils.scoring import scoring
 from Utils.Dictatorship import dictatorship
 from Utils.Stability import stability
+from collections import defaultdict
 
 
 def voters(n_points, x_range, y_range):
@@ -23,7 +24,7 @@ def voters_normal(n_points, mean, stdev):
     return np.column_stack((x_coords, y_coords))
 
 
-def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2, ratio):
+def voters_bimodal(n_points, mean_1, stdev_1, mean_2, stdev_2, ratio):
     x_coords = np.random.normal(mean_1[0], stdev_1[0], int(n_points*ratio))
     y_coords = np.random.normal(mean_1[1], stdev_1[1], int(n_points*ratio))
     x_coords = np.append(x_coords, np.random.normal(mean_2[0], stdev_2[0], int(n_points*(1-ratio))))
@@ -32,7 +33,7 @@ def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2, ratio):
 
 
 num_candidates = 10
-votersCoords = voters(1000, (-10, 10), (-10, 10))
+votersCoords = [voters(1000, (-10,10), (-10,10)), voters_normal(1000, (0, 0), (5, 5)), voters_bimodal(1000, (5,0), (1,1), (-5,0), (1,1), 0.5), voters_bimodal(1000, (5,0), (1,5), (-5,0), (1,1), 0.5)]
 
 
 def Candidates(voters_coords, n_candidates):
@@ -72,7 +73,7 @@ def Candidates_bimodal(n_candidates, mean_1, stdev_1, mean_2, stdev_2, ratio):
         candidates.update({i: candidate_i})
     for i in range(int(n_candidates*(1-ratio))):
         candidate_i = [np.random.normal(mean_2[0], stdev_1[0]), np.random.normal(mean_2[1], stdev_2[1])]
-        candidates.update({i: candidate_i})
+        candidates.update({i+int(n_candidates*ratio): candidate_i})
     return candidates
 
 
@@ -94,7 +95,7 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
     avg_discrepancy = {votingSystem.__name__: 0 for votingSystem in voting_systems}
 
     for repeat in range(repeats):
-        candidates = Candidates_no_centre(voters_coords, n_candidates)
+        candidates = Candidates_rand(n_candidates, (-10,10), (-10,10))
 
         ballot_box = {}
         for i in range(len(voters_coords)):
@@ -120,14 +121,23 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
 
     return results, avg_discrepancy
 
-repeats = 6
-
+repeats = 10
 votingSystems_list = [plurality, instant_runoff, bordaCount, condorcet, scoring, dictatorship]
-Simulation, avg_Discrepancy = simulation(votersCoords, num_candidates, repeats, votingSystems_list)
+for v in votersCoords:
+    Simulation, avg_Discrepancy = simulation(v, num_candidates, repeats, votingSystems_list)
 
-for repeat, (result, discrepancy) in enumerate(zip(Simulation,avg_Discrepancy), start=1):
-    print("Repeat:", repeat)
-    for votingSystem, data in result.items():
-        print(votingSystem, ":", data, end="\n")
-    print()
-print('average discrepancies:', avg_Discrepancy)
+    avg_Stability= {}
+    avg_Stability= defaultdict(lambda: 0, avg_Stability)
+    for i in Simulation:
+        for key in i:
+            avg_Stability[key] += max(i[key]['Stability'].values())/repeats
+
+    print("Average Stability: ", avg_Stability)
+
+# for repeat, (result, discrepancy) in enumerate(zip(Simulation,avg_Discrepancy), start=1):
+#     print("Repeat:", repeat)`
+#     for votingSystem, data in result.items():
+#         print(votingSystem, ":", data, end="\n")
+#     print()
+
+    print('average discrepancies:', avg_Discrepancy)

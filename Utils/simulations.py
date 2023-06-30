@@ -1,4 +1,5 @@
 import numpy as np
+import statistics
 from show_grid import distance
 from Utils.discrepancyFunction import discrepancy
 
@@ -25,18 +26,19 @@ def voters_normal(n_points, mean, stdev):
 
 
 def voters_bimodal(n_points, mean_1, mean_2, stdev_1, stdev_2):
-    x_coords = np.random.normal(mean_1[0], stdev_1[0], n_points/2)
-    y_coords = np.random.normal(mean_1[1], stdev_1[1], n_points/2)
-    x_coords = np.append(x_coords, np.random.normal(mean_2[0], stdev_2[0], n_points/2))
-    y_coords = np.append(y_coords, np.random.normal(mean_2[1], stdev_2[1], n_points / 2))
+    n_points = int(n_points)
+    x_coords = np.random.normal(mean_1[0], stdev_1[0], n_points//2)
+    y_coords = np.random.normal(mean_1[1], stdev_1[1], n_points//2)
+    x_coords = np.append(x_coords, np.random.normal(mean_2[0], stdev_2[0], n_points//2))
+    y_coords = np.append(y_coords, np.random.normal(mean_2[1], stdev_2[1], n_points // 2))
     return np.column_stack((x_coords, y_coords))
 
 
-num_candidates = 10
+num_candidates = 4
 votersCoords1 = voters(1000, (-10, 10), (-10, 10))
 votersCoords2 = voters_normal(1000, (0, 0), (5, 5))
-votersCoords3 = voters_bimodal(1000, (5, 0), (-5, 0), (1, 5), (1, 5))
-votersCoords4 = voters_bimodal(1000, (5, 0), (-5, 0), (1, 1), (1, 1))
+# votersCoords3 = voters_bimodal(1000, (5, 0), (-5, 0), (1, 5), (1, 5))
+votersCoords4 = voters_bimodal(1000, [5, 0], (-5, 0), (1, 1), (1, 1))
 
 
 
@@ -58,6 +60,7 @@ def Candidates_rand(n_candidates, x_range, y_range):
         candidate_i = [np.random.uniform(x_range[0], x_range[1]), np.random.uniform(y_range[0], y_range[1])]
         candidates.update({i: candidate_i})
     return candidates
+
 
 def Candidates_norm(voters_coords, n_candidates, stdev):
     candidates = {}
@@ -97,6 +100,7 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
     results = []
     ideal_candidate = [voters_coords[:, 0].mean(), voters_coords[:, 1].mean()]
     avg_discrepancy = {votingSystem.__name__: 0 for votingSystem in voting_systems}
+    avg_stability = {votingSystem.__name__: {} for votingSystem in voting_systems}
 
     for repeat in range(repeats):
         candidates = Candidates(voters_coords, n_candidates)
@@ -120,22 +124,36 @@ def simulation(voters_coords, n_candidates, repeats, voting_systems):
             winners = list(votingSystem(ballot_box, n_candidates).keys())
             winner = winners[0]
             discrepancy_val = discrepancy(votingSystem, ballot_box, ideal_candidate, candidates, n_candidates)
-            stability_val=stability(ballot_box, votingSystem, 1000, 0.1, n_candidates)
+            stability_val = stability(ballot_box, votingSystem, 1000, 0.1, n_candidates)
             data[votingSystem.__name__] = {"Winner": winner, "Discrepancy": discrepancy_val, "Stability": stability_val}
             # average discrepancy
             avg_discrepancy[votingSystem.__name__] += discrepancy_val / repeats
+            for candidate, stabilityVal in stability_val.items():
+                avg_stability[votingSystem.__name__].setdefault(candidate, []).append(stabilityVal)
 
         results.append(data)
 
-    return results, avg_discrepancy
+    for votingSystem in voting_systems:
+        for candidate_idx, candidate_stability_list in avg_stability[votingSystem.__name__].items():
+            avg_stability[votingSystem.__name__][candidate_idx] = statistics.mean(candidate_stability_list)
+    avg_stability2 = {
+        key: np.mean(value) if isinstance(value, list) else value
+        for key, value in avg_stability.items()
+        }
+
+    return results, avg_discrepancy, avg_stability2
 
 
 votingSystems_list = [plurality, instant_runoff, bordaCount, condorcet, scoring, dictatorship]
-Simulation, avg_Discrepancy = simulation(votersCoords, num_candidates, 2, votingSystems_list)
+Simulation, avg_Discrepancy, avg_Stability = simulation(votersCoords1, num_candidates, 20, votingSystems_list)
 
-for repeat, (result, discrepancy) in enumerate(zip(Simulation,avg_Discrepancy), start=1):
-    print("Repeat:", repeat)
+
+for repeat, (result, discrepancy, Stability) in enumerate(zip(Simulation,avg_Discrepancy, avg_Stability), start=1):
+    print("repeat:", repeat)
     for votingSystem, data in result.items():
         print(votingSystem, ":", data, end="\n")
     print()
+
 print('average discrepancies:', avg_Discrepancy)
+print()
+print("avg stability:", avg_Stability)
